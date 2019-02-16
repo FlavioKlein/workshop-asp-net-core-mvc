@@ -15,10 +15,10 @@ namespace SalesWebMVC.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
-            ViewData["message"] = "Teste de message em página Privacy";
-            ViewData["minhaChave"] = "Testando qualquer coisa em uma chave inventada para este propósito ...";
+            ViewData["message"] = "Desenvolvedor: Flávio A. Klein";
+            ViewData["email"] = "flavioklein@gmail.com";
             return View();
         }
 

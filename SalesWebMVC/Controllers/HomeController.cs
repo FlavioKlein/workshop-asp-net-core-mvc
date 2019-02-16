@@ -17,6 +17,8 @@ namespace SalesWebMVC.Controllers
 
         public IActionResult Privacy()
         {
+            ViewData["message"] = "Teste de message em página Privacy";
+            ViewData["minhaChave"] = "Testando qualquer coisa em uma chave inventada para este propósito ...";
             return View();
         }
 

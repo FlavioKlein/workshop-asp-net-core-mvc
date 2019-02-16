@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SalesWebMVC.Models;
+using SalesWebMVC.Models.ViewModels;
 
 namespace SalesWebMVC.Controllers
 {
@@ -19,6 +19,12 @@ namespace SalesWebMVC.Controllers
         {
             ViewData["message"] = "Teste de message em página Privacy";
             ViewData["minhaChave"] = "Testando qualquer coisa em uma chave inventada para este propósito ...";
+            return View();
+        }
+
+        public IActionResult Departments()
+        {
+            ViewData["message"] = "Departamentos";
             return View();
         }
 

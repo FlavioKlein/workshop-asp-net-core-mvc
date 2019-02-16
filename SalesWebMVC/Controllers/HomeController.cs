@@ -17,7 +17,13 @@ namespace SalesWebMVC.Controllers
 
         public IActionResult About()
         {
-            ViewData["message"] = "Desenvolvedor: Flávio A. Klein";
+            return View();
+        }
+
+        public IActionResult Privacy()
+        {
+            ViewData["desenvolvedor"] = "Developer: Flávio A. Klein";
+            ViewData["direitos"] = "All rigths reserved.";
             ViewData["email"] = "flavioklein@gmail.com";
             return View();
         }

@@ -15,8 +15,7 @@ namespace SalesWebMVC.Controllers
     {
         private readonly SellerService _sellerService;
         private readonly DepartmentService _departmentService;
-
-
+        
         public SellersController(SellerService sellerService, DepartmentService departmentService)
         {
             _sellerService = sellerService;
@@ -31,8 +30,7 @@ namespace SalesWebMVC.Controllers
 
         public IActionResult Create()
         {
-            var departments = _departmentService.FindAll();
-            var viewModel = new SellerFormViewModel { Departments = departments };
+            SellerFormViewModel viewModel = CreateViewModel(null);
             return View(viewModel);
         }
 
@@ -40,6 +38,13 @@ namespace SalesWebMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
+            //Este teste serve para pegar quando o javaScrip está desligado no navegador (coisa rara)
+            //e os dados não foram validados em client-side.
+            //Vai voltar para a página com os dados digitados
+            if (!ModelState.IsValid)
+            {
+                return View(seller);
+            }
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));
         }
@@ -98,9 +103,7 @@ namespace SalesWebMVC.Controllers
                 return RedirectToAction(nameof(Error), new { message = "Id not Found..." });
             }
 
-            List<Department> departments = _departmentService.FindAll();
-
-            SellerFormViewModel viewModel = new SellerFormViewModel { Seller = obj, Departments = departments };
+            SellerFormViewModel viewModel = CreateViewModel(obj);
             return View(viewModel);
         }
 
@@ -108,6 +111,15 @@ namespace SalesWebMVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Seller seller)
         {
+            //Este teste serve para pegar quando o javaScrip está desligado no navegador (coisa rara)
+            //e os dados não foram validados em client-side.
+            //Vai voltar para a página com os dados digitados
+            if (!ModelState.IsValid)
+            {
+                SellerFormViewModel viewModel = CreateViewModel(seller);
+                return View(viewModel);
+            }
+
             if (id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not mismatch..." });
@@ -136,6 +148,17 @@ namespace SalesWebMVC.Controllers
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             };
             return View(viewModel);
+        }
+
+        private SellerFormViewModel CreateViewModel(Seller obj)
+        {
+            List<Department> departments = _departmentService.FindAll();
+            if (obj != null)
+            {
+                return new SellerFormViewModel { Seller = obj, Departments = departments };
+            }
+
+            return new SellerFormViewModel { Departments = departments };
         }
     }
 }
